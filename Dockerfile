@@ -1,11 +1,31 @@
-FROM ubuntu:14.04
-MAINTAINER Arne Schauf
+FROM alpine
+MAINTAINER Mikkel Jeppesen
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y python-pip python-dev
-RUN pip install bepasty uwsgi
+# Thanks to https://grrr.tech/posts/2020/add-locales-to-alpine-linux-docker-image/ for locales in alpine
+
+
+ENV MUSL_LOCALE_DEPS cmake make musl-dev gcc gettext-dev libintl
+ENV MUSL_LOCPATH /usr/share/i18n/locales/musl
+ENV UWSGI_DEPS linux-headers gcc
+
+RUN apk add --no-cache \
+    py3-pip python3-dev \
+    $MUSL_LOCALE_DEPS \
+    $UWSGI_DEPS
+
+# Set up musl-locale
+RUN wget https://gitlab.com/rilian-la-te/musl-locales/-/archive/master/musl-locales-master.zip \
+    && unzip musl-locales-master.zip \
+    && cd musl-locales-master \
+    && cmake -DLOCALE_PROFILE=OFF -D CMAKE_INSTALL_PREFIX:PATH=/usr . \
+    && make \
+    && make install \
+    && cd .. \
+    && rm -r musl-locales-master
+
+RUN pip3 install bepasty uwsgi
 
 # Set the locale
-RUN locale-gen en_US.UTF-8  
 ENV LANG en_US.UTF-8  
 ENV LANGUAGE en_US:en  
 ENV LC_ALL en_US.UTF-8

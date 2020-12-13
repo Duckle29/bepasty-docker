@@ -1,0 +1,16 @@
+name: Rebuild docker image
+
+on:
+  schedule:
+    - cron: "0 0 1 * *"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+#    - name: Build image, check if it changed
+# If it changed push to the repo somehow. Triggering an autohub rebuild
