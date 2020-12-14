@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 if [ ! -e /srv/bepasty/bepasty.conf ]; then
     echo "Copying default bepasty.conf..."
     cp /opt/bepasty.conf /srv/bepasty/bepasty.conf
