@@ -23,7 +23,7 @@ RUN wget https://gitlab.com/rilian-la-te/musl-locales/-/archive/master/musl-loca
     && cd .. \
     && rm -r musl-locales-master
 
-RUN pip3 install uwsgi bepasty[magic]
+RUN pip3 install uwsgi "pygments<2.7.3" bepasty[magic]
 
 # Set the locale
 ENV LANG en_US.UTF-8  
