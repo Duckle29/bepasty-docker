@@ -26,13 +26,13 @@ If new settings aren't availabe in the image you can use `SETTINGS_EXTRA` to ins
 For example:
 ```
 docker run -d --restart=unless-stopped --name bepasty -p 5000:5000 -v /opt/bepasty:/srv/bepasty \
-    -e "STORAGE_FILESYSTEM_DIRECTORY=/srv/bepasty/storage" \
-    -e "SITENAME=paste.example.com" \
+    -e "STORAGE_FILESYSTEM_DIRECTORY='/srv/bepasty/storage'" \
+    -e "SITENAME='paste.example.com'" \
     -e "UPLOAD_LOCKED=False" \
     -e "MAX_ALLOWED_FILE_SIZE=5 * 1000 * 1000 * 1000" \
     -e "MAX_BODY_SIZE=1 * 1024 * 1024" \
-    -e "STORAGE=filesystem" \
-    -e "SECRET_KEY=SUPER_SECRET_SUPER_RANDOM_SUPER_LONG_KEY" \
+    -e "STORAGE='filesystem'" \
+    -e "SECRET_KEY='SUPER_SECRET_SUPER_RANDOM_SUPER_LONG_KEY'" \
     -e "SESSION_COOKIE_SECURE=True" \
     -e "PERMANENT_SESSION=False" \
     -e "PERMANENT_SESSION_LIFETIME=31 * 24 * 3600" \
