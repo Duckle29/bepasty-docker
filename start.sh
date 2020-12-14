@@ -1,4 +1,5 @@
 #!/bin/sh
+envsubst < "/opt/bepasty.conf.template" > "/srv/bepasty/bepasty.conf"
 export PYTHONUNBUFFERED=0
 mkdir -p /srv/bepasty/logs
 mkdir -p /srv/bepasty/storage

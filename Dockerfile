@@ -42,4 +42,4 @@ ADD bepasty.conf.template /opt/bepasty.conf.template
 ADD wsgi.py /opt/wsgi.py
 RUN chmod 550 /opt/start.sh
 
-CMD ["envsubst", "<", "/opt/bepasty.conf.template", ">", "/srv/bepasty/bepasty.conf", "&&", "/opt/start.sh"]
+CMD ["/opt/start.sh"]
