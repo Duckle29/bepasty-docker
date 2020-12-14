@@ -42,4 +42,4 @@ ADD bepasty.conf /opt/bepasty.conf
 ADD wsgi.py /opt/wsgi.py
 RUN chmod 550 /opt/start.sh
 
-CMD ["./start.sh"]
+CMD ["sh ./start.sh"]
