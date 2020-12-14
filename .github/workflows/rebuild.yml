@@ -10,7 +10,5 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-
-#    - name: Build image, check if it changed
-# If it changed push to the repo somehow. Triggering an autohub rebuild
+      - name: Trigger image rebuild via POST
+        run: curl -X POST ${{ DOCKER_TRIGGER_ENDPOINT }}
