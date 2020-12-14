@@ -23,7 +23,7 @@ RUN wget https://gitlab.com/rilian-la-te/musl-locales/-/archive/master/musl-loca
     && cd .. \
     && rm -r musl-locales-master
 
-RUN pip3 install bepasty uwsgi
+RUN pip3 install uwsgi bepasty[magic]
 
 # Set the locale
 ENV LANG en_US.UTF-8  
@@ -38,8 +38,9 @@ EXPOSE 5000
 WORKDIR /opt
 
 ADD start.sh /opt/start.sh
-ADD bepasty.conf /opt/bepasty.conf
+ADD bepasty.conf.template /opt/bepasty.conf.template
 ADD wsgi.py /opt/wsgi.py
 RUN chmod 550 /opt/start.sh
 
-CMD ["sh ./start.sh"]
+CMD ["envsubst", "<", "/opt/bepasty.conf.template", ">", "/srv/bepasty/bepasty.conf"]
+CMD ["/opt/start.sh"]

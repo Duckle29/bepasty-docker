@@ -4,40 +4,39 @@ Docker automated build repository for the [bepasty server](https://github.com/be
 
 ## Usage
 
-Install docker on your system. for the restart feature you need at least docker 1.2.
-[Instructions](http://docs.docker.com/installation/)
+When running this image, make sure to specify all the environement varibles used for the config. Look up the config values on http://bepasty-server.readthedocs.org/en/latest/quickstart.html#configuring-bepasty
+
+The ones currently implemented in this image:  
+`STORAGE_FILESYSTEM_DIRECTORY`  
+`SITENAME`  
+`UPLOAD_LOCKED`  
+`MAX_ALLOWED_FILE_SIZE`  
+`MAX_BODY_SIZE`  
+`STORAGE`  
+`SECRET_KEY`  
+`SESSION_COOKIE_SECURE`  
+`PERMANENT_SESSION`  
+`PERMANENT_SESSION_LIFETIME`  
+`DEFAULT_PERMISSIONS`  
+`PERMISSIONS`  
+
+If new settings aren't availabe in the image you can use `SETTINGS_EXTRA` to insert whatever you want at the end of the config
 
 
-**First start/"setup"**
-
-This fetches the image (if you haven't already done that) and creates a container.
+For example:
 ```
-docker run -d --restart=always --name bepasty -p 5000:5000 -v /opt/bepasty:/srv/bepasty asmaps/bepasty
-```
-After startup you should have the config file located in /opt/bepasty/bepasty.conf  
-Adjust it to your needs and restart the server.
-
-**Stop the server**
-
-```
-docker stop bepasty
-```
-
-**Start the server**
-
-With the --restart=always option the server should be started automatically. If you stopped it you can start it again by
-running
-```
-docker start bepasty
-```
-
-**Updating**
-
-To update you need to stop and delete the container (data is stored on the host, so it shouldn't be lost), then fetch
-the new image and recreate the container:
-```
-docker stop bepasty
-docker rm bepasty
-docker pull asmaps/bepasty
-docker run -d --restart=always --name bepasty -p 5000:5000 -v /opt/bepasty:/srv/bepasty asmaps/bepasty
+docker run -d --restart=unless-stopped --name bepasty -p 5000:5000 -v /opt/bepasty:/srv/bepasty \
+    -e STORAGE_FILESYSTEM_DIRECTORY='/srv/bepasty/storage' \
+    -e SITENAME='paste.example.com' \
+    -e UPLOAD_LOCKED='False' \
+    -e MAX_ALLOWED_FILE_SIZE='5 * 1000 * 1000 * 1000' \
+    -e MAX_BODY_SIZE='1 * 1024 * 1024' \
+    -e STORAGE='filesystem' \
+    -e SECRET_KEY='SUPER_SECRET_SUPER_RANDOM_SUPER_LONG_KEY' \
+    -e SESSION_COOKIE_SECURE='True' \
+    -e PERMANENT_SESSION='False' \
+    -e PERMANENT_SESSION_LIFETIME='31 * 24 * 3600' \
+    -e DEFAULT_PERMISSIONS='' \
+    -e PERMISSIONS: "{'secret_admin_pass' : 'admin,list,create,read,delete'}" \
+    duckle/bepasty
 ```
