@@ -37,6 +37,6 @@ docker run -d --restart=unless-stopped --name bepasty -p 5000:5000 -v /opt/bepas
     -e "PERMANENT_SESSION=False" \
     -e "PERMANENT_SESSION_LIFETIME=31 * 24 * 3600" \
     -e "DEFAULT_PERMISSIONS=''" \
-    -e "PERMISSIONS={'secret_admin_pass' : 'admin,list,create,read,delete'}" \
+    -e "PERMISSIONS='secret_admin_pass' : 'admin,list,create,read,delete', 'secret_user_pass' : 'create,read'" \
     duckle/bepasty
 ```
