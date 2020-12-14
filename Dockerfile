@@ -9,7 +9,7 @@ ENV MUSL_LOCPATH /usr/share/i18n/locales/musl
 ENV UWSGI_DEPS linux-headers gcc
 
 RUN apk add --no-cache \
-    py3-pip python3-dev \
+    py3-pip python3-dev git\
     $MUSL_LOCALE_DEPS \
     $UWSGI_DEPS
 
