@@ -11,4 +11,7 @@ jobs:
 
     steps:
       - name: Trigger image rebuild via POST
-        run: curl -X POST ${{ DOCKER_TRIGGER_ENDPOINT }}
+        
+        run: |
+          curl -X POST ${{ secrets.DOCKER_TRIGGER_ENDPOINT }} | \
+          python -c "import sys, json; sys.exit(0 if json.load(sys.stdin)['state'].lower() == 'success' else 1)"
