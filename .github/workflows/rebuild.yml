@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Trigger image rebuild via POST
-        
-        run: curl -X POST ${{ secrets.DOCKER_TRIGGER_ENDPOINT }} | python -c "import sys, json; sys.exit(0 if json.load(sys.stdin)['state'].lower() == 'success' else 1)"
+      - name: Trigger image rebuild via curl POST
+        uses: TobiasOlofsson88/github-action-validate-json-request-result@v1.0.5
+        with:
+          request-method: "POST"
+          request-url: ${{ secrets.DOCKER_TRIGGER_ENDPOINT }}
+          validate-json: '{ "state": "Success"}'
